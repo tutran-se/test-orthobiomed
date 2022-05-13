@@ -149,7 +149,7 @@ const SideBar = () => {
                 N
               </Avatar>
               &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-              <p style={{ marginRight: "auto" }}>John Smith</p>
+              <p style={{ marginRight: "auto" }}>Tu Tran</p>
               {isHiddenNavItem && (
                 <IoIosArrowDown onClick={() => setIsHiddenNavItem(false)} />
               )}
