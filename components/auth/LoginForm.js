@@ -52,7 +52,7 @@ const LoginForm = () => {
         <Typography variant="h4">Log In</Typography>
         <br />
         <Typography variant="body2" gutterBottom>
-          Lorem ipsum dolor sit amet consectetur adipisicing.
+          Lorem ipsum dolor sit amet consectetur adipisicang.
         </Typography>
         <br />
         <br />
