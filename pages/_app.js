@@ -1,5 +1,6 @@
 import "../styles/global.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import AuthContextProvider from "../components/context/AuthContextProvider";
 
 const theme = createTheme({
   typography: {
@@ -9,7 +10,9 @@ const theme = createTheme({
 export default function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
+      <AuthContextProvider>
+        <Component {...pageProps} />
+      </AuthContextProvider>
     </ThemeProvider>
   );
 }

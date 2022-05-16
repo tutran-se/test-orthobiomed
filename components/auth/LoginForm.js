@@ -5,6 +5,7 @@ import { Typography, TextField, Button, Stack, Divider } from "@mui/material";
 import { Box } from "@mui/system";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { useAuth } from "../context/AuthContextProvider";
 const Wrapper = styled.div`
   width: 100%;
   min-height: 100vh;
@@ -35,7 +36,8 @@ const LoginForm = () => {
   const router = useRouter();
   const errorMessage = null;
   const isLoading = null;
-  const onSubmit = (data) => console.log(data);
+  const { logIn } = useAuth();
+  const onSubmit = (data) => logIn(data);
 
   return (
     <Wrapper>

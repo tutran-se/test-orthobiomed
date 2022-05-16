@@ -9,8 +9,3 @@ export const API_CALL = ({ method, url, data, token = null }) => {
   };
   return axiosInstance(option);
 };
-const reponse = await API_CALL({
-  method: "post",
-  data: { firstName: "tu" },
-  url: "/users/onboard",
-});
