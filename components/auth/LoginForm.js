@@ -5,6 +5,7 @@ import { Typography, TextField, Button, Stack, Divider } from "@mui/material";
 import { Box } from "@mui/system";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { useAuth } from "../context/AuthContextProvider";
 const Wrapper = styled.div`
   width: 100%;
   min-height: 100vh;
@@ -33,9 +34,8 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
   const router = useRouter();
-  const errorMessage = null;
-  const isLoading = null;
-  const onSubmit = (data) => console.log(data);
+  const { logIn, authErrorMessage, authLoading } = useAuth();
+  const onSubmit = (data) => logIn(data);
 
   return (
     <Wrapper>
@@ -61,11 +61,13 @@ const LoginForm = () => {
             <TextField
               type={"email"}
               fullWidth
-              error={errorMessage || errors.email?.type === "required"}
+              error={
+                (authErrorMessage && true) || errors.email?.type === "required"
+              }
               id="demo-helper-text-misaligned-no-helper"
               label="Email"
               helperText={
-                errorMessage ||
+                authErrorMessage ||
                 (errors.email?.type === "required" && "Email is required.")
               }
               {...register("email", { required: true })}
@@ -75,7 +77,7 @@ const LoginForm = () => {
               variant="contained"
               type="submit"
               size="large"
-              disabled={isLoading}
+              disabled={authLoading}
             >
               Log In
             </Button>
@@ -84,6 +86,7 @@ const LoginForm = () => {
               variant="outlined"
               type="button"
               size="large"
+              disabled={authLoading}
               onClick={() => router.push("/signUp")}
             >
               Sign Up
