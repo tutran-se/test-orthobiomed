@@ -8,18 +8,21 @@ const AuthContextProvider = ({ children }) => {
     isAuthenticated: false,
   });
   const [userInfo, setUserInfo] = useState({});
+  const [authErrorMessage, setAuthErrorMessage] = useState(null);
+  const [authLoading, setAuthLoading] = useState(false);
   const logIn = async (formData) => {
     try {
-      const { data } = await API_CALL({
+      setAuthLoading(true);
+      const { data: url } = await API_CALL({
         method: "post",
-        url: "/auth",
+        url: "/auth/",
         data: formData,
       });
-      console.log(data);
+      window.location.href = url;
     } catch (error) {
-      setUserInfo({});
-      setAuthState({ isAuthStateReady: true, isAuthenticated: false });
       console.log(error);
+      setAuthLoading(false);
+      setAuthErrorMessage("Invalid Email Address.");
     }
   };
 
@@ -34,7 +37,15 @@ const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ ...authState, userInfo, setUserInfo, logIn, logOut }}
+      value={{
+        ...authState,
+        userInfo,
+        setUserInfo,
+        logIn,
+        logOut,
+        authErrorMessage,
+        authLoading,
+      }}
     >
       {children}
     </AuthContext.Provider>
