@@ -15,6 +15,7 @@ import { BsBoxArrowInLeft } from "react-icons/bs";
 import { Avatar, Badge } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
 import { useRouter } from "next/router";
+import { useAuth } from "../context/AuthContextProvider";
 const Container = styled.div`
   background-color: #121212;
   position: absolute;
@@ -77,7 +78,9 @@ const SideBar = () => {
   const router = useRouter();
   const [isHiddenNavItem, setIsHiddenNavItem] = useState(false);
   const [isHiddenLogo, setIsHiddenLogo] = useState(false);
-
+  const {
+    userInfo: { username },
+  } = useAuth();
   return (
     <Container className={isHiddenLogo ? "collapse" : ""}>
       {!isHiddenLogo && (
@@ -146,10 +149,10 @@ const SideBar = () => {
                   }
                 }}
               >
-                N
+                {username}
               </Avatar>
               &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-              <p style={{ marginRight: "auto" }}>Tu Tran</p>
+              <p style={{ marginRight: "auto" }}>{username}</p>
               {isHiddenNavItem && (
                 <IoIosArrowDown onClick={() => setIsHiddenNavItem(false)} />
               )}

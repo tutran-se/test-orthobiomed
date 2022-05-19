@@ -35,13 +35,18 @@ const AuthContextProvider = ({ children }) => {
 
   const getCurrentUserInfo = async () => {
     try {
-      const response = await API_CALL({
+      const { data } = await API_CALL({
         method: "get",
         url: "/me/",
       });
-      console.log(response);
+      const { username } = data;
+      setUserInfo({ username });
+      setAuthState({ isAuthStateReady: true, isAuthenticated: true });
+      // console.log(response);
     } catch (error) {
       console.log(error);
+      setUserInfo({});
+      setAuthState({ isAuthStateReady: true, isAuthenticated: false });
     }
   };
   useEffect(() => {
