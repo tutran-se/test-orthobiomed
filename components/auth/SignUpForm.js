@@ -143,12 +143,14 @@ const SignUpForm = () => {
               >
                 Comments{" "}
               </Typography>
-              <TextareaAutosize
+              <textarea
                 aria-label="comment"
-                minRows={3}
+                // minRows={3}
+                // maxRows={4}
                 placeholder="Additional information about your request..."
                 style={{ width: "100%" }}
-              />
+                {...register("comment")}
+              ></textarea>
             </div>
 
             <Button variant="contained" type="submit" size="large">

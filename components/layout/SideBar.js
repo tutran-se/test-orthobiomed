@@ -79,7 +79,7 @@ const SideBar = () => {
   const [isHiddenNavItem, setIsHiddenNavItem] = useState(false);
   const [isHiddenLogo, setIsHiddenLogo] = useState(false);
   const {
-    userInfo: { username },
+    userInfo: { username, picture },
   } = useAuth();
   return (
     <Container className={isHiddenLogo ? "collapse" : ""}>
@@ -148,9 +148,9 @@ const SideBar = () => {
                     setIsHiddenLogo(false);
                   }
                 }}
-              >
-                {username}
-              </Avatar>
+                alt="Avatar"
+                src={picture}
+              />
               &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
               <p style={{ marginRight: "auto" }}>{username}</p>
               {isHiddenNavItem && (

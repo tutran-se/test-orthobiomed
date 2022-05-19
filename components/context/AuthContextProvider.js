@@ -39,10 +39,8 @@ const AuthContextProvider = ({ children }) => {
         method: "get",
         url: "/me/",
       });
-      const { username } = data;
-      setUserInfo({ username });
+      setUserInfo({ ...data });
       setAuthState({ isAuthStateReady: true, isAuthenticated: true });
-      // console.log(response);
     } catch (error) {
       console.log(error);
       setUserInfo({});
