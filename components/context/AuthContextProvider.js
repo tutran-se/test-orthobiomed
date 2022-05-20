@@ -29,6 +29,7 @@ const AuthContextProvider = ({ children }) => {
   const requestAccess = async (formData) => {
     try {
       setAuthLoading(true);
+      setAuthErrorMessage("");
       const axiosData = {
         username: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
