@@ -10,6 +10,7 @@ const AuthContextProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
   const [authErrorMessage, setAuthErrorMessage] = useState(null);
   const [authLoading, setAuthLoading] = useState(false);
+  const [requestSuccess, setRequestSuccess] = useState(false);
   const logIn = async (formData) => {
     try {
       setAuthLoading(true);
@@ -25,7 +26,23 @@ const AuthContextProvider = ({ children }) => {
       setAuthErrorMessage("Invalid Email Address.");
     }
   };
-
+  const requestAccess = async (formData) => {
+    try {
+      console.log(formData);
+      // setAuthLoading(true);
+      // const { data: url } = await API_CALL({
+      //   method: "post",
+      //   url: "/register/",
+      //   data: formData,
+      // });
+      // setAuthLoading(false);
+      setRequestSuccess(true);
+    } catch (error) {
+      console.log(error);
+      setAuthLoading(false);
+      setAuthErrorMessage("Email Address is already exist.");
+    }
+  };
   const logOut = async () => {
     try {
     } catch (error) {
@@ -59,8 +76,11 @@ const AuthContextProvider = ({ children }) => {
         setUserInfo,
         logIn,
         logOut,
-        authErrorMessage,
         authLoading,
+        authErrorMessage,
+        requestSuccess,
+        requestAccess,
+        setRequestSuccess,
       }}
     >
       {children}
