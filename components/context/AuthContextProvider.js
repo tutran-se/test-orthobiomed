@@ -33,7 +33,7 @@ const AuthContextProvider = ({ children }) => {
         username: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
         comment: formData.comment,
-        organization: formData.organization,
+        organization_id: formData.organization,
       };
 
       console.log(axiosData);

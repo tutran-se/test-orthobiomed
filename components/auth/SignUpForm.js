@@ -157,7 +157,7 @@ const SignUpForm = () => {
                 {...register("organization", { required: true })}
               >
                 {options.map((item) => (
-                  <MenuItem value={item.name} key={item.id}>
+                  <MenuItem value={item.id} key={item.id}>
                     {item.name}
                   </MenuItem>
                 ))}
