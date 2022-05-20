@@ -28,14 +28,22 @@ const AuthContextProvider = ({ children }) => {
   };
   const requestAccess = async (formData) => {
     try {
-      console.log(formData);
-      // setAuthLoading(true);
-      // const { data: url } = await API_CALL({
-      //   method: "post",
-      //   url: "/register/",
-      //   data: formData,
-      // });
-      // setAuthLoading(false);
+      setAuthLoading(true);
+      const axiosData = {
+        username: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        comment: formData.comment,
+        organization: formData.organization,
+      };
+
+      console.log(axiosData);
+      const { data } = await API_CALL({
+        method: "post",
+        url: "/register/",
+        data: axiosData,
+      });
+      console.log(data);
+      setAuthLoading(false);
       setRequestSuccess(true);
     } catch (error) {
       console.log(error);

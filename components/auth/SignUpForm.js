@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useAuth } from "../context/AuthContextProvider";
+import { API_CALL } from "../../helpers/apiCall";
 const Wrapper = styled.div`
   width: 100%;
   min-height: 100vh;
@@ -60,15 +61,7 @@ const SignUpForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      organization: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      comment: "",
-    },
-  });
+  } = useForm();
   const router = useRouter();
   const {
     authLoading,
@@ -86,6 +79,22 @@ const SignUpForm = () => {
       }, 3000);
     }
   }, [requestSuccess]);
+
+  const [options, setOptions] = useState([]);
+  const getOrganizations = async () => {
+    try {
+      const { data } = await API_CALL({
+        method: "get",
+        url: "/organizations/",
+      });
+      setOptions(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getOrganizations();
+  }, []);
   return (
     <Wrapper>
       <Container>
@@ -147,9 +156,11 @@ const SignUpForm = () => {
                 style={{ textAlign: "left" }}
                 {...register("organization", { required: true })}
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {options.map((item) => (
+                  <MenuItem value={item.name} key={item.id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
               </Select>
               <FormHelperText>
                 {errors.organization?.type === "required" &&
