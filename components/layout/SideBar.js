@@ -11,17 +11,15 @@ import {
 } from "react-icons/ai";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { IoNotificationsOutline } from "react-icons/io5";
-import { BsBoxArrowInLeft } from "react-icons/bs";
+import { BsBoxArrowInLeft, BsHeadset } from "react-icons/bs";
 import { Avatar, Badge } from "@mui/material";
-import { deepOrange } from "@mui/material/colors";
 import { useRouter } from "next/router";
+import { useAuth } from "../context/AuthContextProvider";
 const Container = styled.div`
   background-color: #121212;
-  position: absolute;
-  min-height: 100vh;
-  z-index: 1000;
   width: 280px;
   color: white;
+  min-height: 100vh;
   & svg {
     cursor: pointer;
   }
@@ -29,6 +27,10 @@ const Container = styled.div`
   transition: all 0.5s;
   &.collapse {
     width: 60px;
+  }
+  @media (max-width: 912px) {
+    position: absolute;
+    z-index: 1000;
   }
 `;
 const LogoContainer = styled.div`
@@ -46,7 +48,6 @@ const SmallLogoContainer = styled.div`
 const Body = styled.div`
   width: 280px;
 `;
-const Footer = styled.div``;
 const NavItem = styled.div`
   padding: 0.5rem 1rem;
   border-bottom: 1px solid #4a4a4a;
@@ -77,7 +78,9 @@ const SideBar = () => {
   const router = useRouter();
   const [isHiddenNavItem, setIsHiddenNavItem] = useState(false);
   const [isHiddenLogo, setIsHiddenLogo] = useState(false);
-
+  const {
+    userInfo: { username, picture },
+  } = useAuth();
   return (
     <Container className={isHiddenLogo ? "collapse" : ""}>
       {!isHiddenLogo && (
@@ -99,7 +102,6 @@ const SideBar = () => {
             />
           </LogoContainer>
           <AiOutlineArrowLeft size={20} onClick={() => setIsHiddenLogo(true)} />
-          {/* <BsArrowRight /> */}
         </div>
       )}
 
@@ -113,7 +115,7 @@ const SideBar = () => {
           </NavItem>
         )}
         {isHiddenLogo && (
-          <NavItem>
+          <NavItem onClick={() => router.push("/")}>
             <SmallLogoContainer>
               <Image
                 src={smallLogoSrc}
@@ -131,7 +133,7 @@ const SideBar = () => {
               style={{
                 display: "flex",
                 width: "100%",
-                // flexGrow: "1",
+
                 justifyContent: "space-between",
                 alignItems: "center",
               }}
@@ -145,11 +147,11 @@ const SideBar = () => {
                     setIsHiddenLogo(false);
                   }
                 }}
-              >
-                N
-              </Avatar>
+                alt="Avatar"
+                src={picture}
+              />
               &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-              <p style={{ marginRight: "auto" }}>Tu Tran</p>
+              <p style={{ marginRight: "auto" }}>{username}</p>
               {isHiddenNavItem && (
                 <IoIosArrowDown onClick={() => setIsHiddenNavItem(false)} />
               )}
@@ -162,9 +164,12 @@ const SideBar = () => {
               style={{
                 marginTop: "0",
                 marginLeft: "2.5rem",
-                // background: "red",
               }}
             >
+              <SubItem>
+                <BsHeadset size={20} />
+                &nbsp; &nbsp;&nbsp; Support
+              </SubItem>
               <SubItem>
                 <Badge color="secondary" variant="dot" invisible={false}>
                   <IoNotificationsOutline size={20} />
@@ -178,7 +183,10 @@ const SideBar = () => {
             </div>
           </div>
         </NavItem>
-        <NavItem onClick={() => router.push("/")}>
+        <NavItem
+          style={{ background: router.asPath.includes("/upload") && "#494949" }}
+          onClick={() => router.push("/upload")}
+        >
           <div
             style={{
               display: "flex",
@@ -194,7 +202,12 @@ const SideBar = () => {
             </p>
           </div>
         </NavItem>
-        <NavItem onClick={() => router.push("/")}>
+        <NavItem
+          onClick={() => router.push("/")}
+          style={{
+            background: router.asPath.includes("/processResult") && "#494949",
+          }}
+        >
           <div
             style={{
               display: "flex",
@@ -211,7 +224,6 @@ const SideBar = () => {
           </div>
         </NavItem>
       </Body>
-      <Footer></Footer>
     </Container>
   );
 };

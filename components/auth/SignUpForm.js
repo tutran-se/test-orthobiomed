@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Logo from "../logo";
 import {
@@ -7,12 +7,19 @@ import {
   Button,
   Stack,
   Divider,
-  TextareaAutosize,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
+  Alert,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useAuth } from "../context/AuthContextProvider";
+import { API_CALL } from "../../helpers/apiCall";
 const Wrapper = styled.div`
   width: 100%;
   min-height: 100vh;
@@ -50,14 +57,44 @@ const Container = styled.div`
 
 const SignUpForm = () => {
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [customErrorMessage, setCustomErrorMessage] = useState(null);
   const router = useRouter();
-  const onSubmit = (data) => console.log(data);
+  const {
+    authLoading,
+    authErrorMessage,
+    requestSuccess,
+    setRequestSuccess,
+    requestAccess,
+  } = useAuth();
+  const onSubmit = (data) => requestAccess(data);
+  useEffect(() => {
+    if (requestSuccess) {
+      reset();
+      setTimeout(() => {
+        setRequestSuccess(false);
+      }, 3000);
+    }
+  }, [requestSuccess]);
 
+  const [options, setOptions] = useState([]);
+  const getOrganizations = async () => {
+    try {
+      const { data } = await API_CALL({
+        method: "get",
+        url: "/organizations/",
+      });
+      setOptions(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getOrganizations();
+  }, []);
   return (
     <Wrapper>
       <Container>
@@ -77,20 +114,18 @@ const SignUpForm = () => {
         </Typography>
         <br />
         <br />
+
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={2}>
             <TextField
               type={"text"}
               fullWidth
-              error={
-                customErrorMessage || errors.firstName?.type === "required"
-              }
+              error={errors.firstName?.type === "required"}
               id="demo-helper-text-misaligned-no-helper"
               label="First Name"
               helperText={
-                customErrorMessage ||
-                (errors.firstName?.type === "required" &&
-                  "First Name is required.")
+                errors.firstName?.type === "required" &&
+                "First Name is required."
               }
               autoFocus
               {...register("firstName", { required: true })}
@@ -98,39 +133,50 @@ const SignUpForm = () => {
             <TextField
               type={"text"}
               fullWidth
-              error={customErrorMessage || errors.lastName?.type === "required"}
+              error={errors.lastName?.type === "required"}
               id="demo-helper-text-misaligned-no-helper"
               label="Last Name"
               helperText={
-                customErrorMessage ||
-                (errors.lastName?.type === "required" &&
-                  "Last Name is required.")
+                errors.lastName?.type === "required" && "Last Name is required."
               }
               {...register("lastName", { required: true })}
             />
-            <TextField
-              type={"text"}
+
+            <FormControl
               fullWidth
-              error={
-                customErrorMessage || errors.organization?.type === "required"
-              }
-              id="demo-helper-text-misaligned-no-helper"
-              label="Organization"
-              helperText={
-                customErrorMessage ||
-                (errors.organization?.type === "required" &&
-                  "Organization is required.")
-              }
-              {...register("organization", { required: true })}
-            />
+              error={errors.organization?.type === "required"}
+            >
+              <InputLabel id="demo-simple-select-label">
+                Organization
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Organization"
+                style={{ textAlign: "left" }}
+                {...register("organization", { required: true })}
+              >
+                {options.map((item) => (
+                  <MenuItem value={item.id} key={item.id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              <FormHelperText>
+                {errors.organization?.type === "required" &&
+                  "Organization is required."}
+              </FormHelperText>
+            </FormControl>
             <TextField
               type={"email"}
               fullWidth
-              error={customErrorMessage || errors.email?.type === "required"}
+              error={
+                (authErrorMessage && true) || errors.email?.type === "required"
+              }
               id="demo-helper-text-misaligned-no-helper"
               label="Email"
               helperText={
-                customErrorMessage ||
+                authErrorMessage ||
                 (errors.email?.type === "required" && "Email is required.")
               }
               {...register("email", { required: true })}
@@ -143,23 +189,33 @@ const SignUpForm = () => {
               >
                 Comments{" "}
               </Typography>
-              <TextareaAutosize
+              <textarea
                 aria-label="comment"
-                minRows={3}
                 placeholder="Additional information about your request..."
                 style={{ width: "100%" }}
-              />
+                {...register("comment")}
+              ></textarea>
             </div>
 
-            <Button variant="contained" type="submit" size="large">
+            <Button
+              variant="contained"
+              type="submit"
+              size="large"
+              disabled={authLoading}
+            >
               Request Access
             </Button>
+            {requestSuccess && (
+              <Alert severity="success">Successful Request.</Alert>
+            )}
+
             <Divider>Or</Divider>
             <Button
               variant="outlined"
               type="button"
               size="large"
               onClick={() => router.push("/login")}
+              disabled={authLoading}
             >
               Login
             </Button>

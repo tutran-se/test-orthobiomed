@@ -10,6 +10,7 @@ const AuthContextProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
   const [authErrorMessage, setAuthErrorMessage] = useState(null);
   const [authLoading, setAuthLoading] = useState(false);
+  const [requestSuccess, setRequestSuccess] = useState(false);
   const logIn = async (formData) => {
     try {
       setAuthLoading(true);
@@ -25,7 +26,32 @@ const AuthContextProvider = ({ children }) => {
       setAuthErrorMessage("Invalid Email Address.");
     }
   };
+  const requestAccess = async (formData) => {
+    try {
+      setAuthLoading(true);
+      setAuthErrorMessage("");
+      const axiosData = {
+        username: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        comment: formData.comment,
+        organization_id: formData.organization,
+      };
 
+      console.log(axiosData);
+      const { data } = await API_CALL({
+        method: "post",
+        url: "/register/",
+        data: axiosData,
+      });
+      console.log(data);
+      setAuthLoading(false);
+      setRequestSuccess(true);
+    } catch (error) {
+      console.log(error);
+      setAuthLoading(false);
+      setAuthErrorMessage("Email Address is already exist.");
+    }
+  };
   const logOut = async () => {
     try {
     } catch (error) {
@@ -33,7 +59,23 @@ const AuthContextProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {}, []);
+  const getCurrentUserInfo = async () => {
+    try {
+      const { data } = await API_CALL({
+        method: "get",
+        url: "/me/",
+      });
+      setUserInfo({ ...data });
+      setAuthState({ isAuthStateReady: true, isAuthenticated: true });
+    } catch (error) {
+      console.log(error);
+      setUserInfo({});
+      setAuthState({ isAuthStateReady: true, isAuthenticated: false });
+    }
+  };
+  useEffect(() => {
+    getCurrentUserInfo();
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -43,8 +85,11 @@ const AuthContextProvider = ({ children }) => {
         setUserInfo,
         logIn,
         logOut,
-        authErrorMessage,
         authLoading,
+        authErrorMessage,
+        requestSuccess,
+        requestAccess,
+        setRequestSuccess,
       }}
     >
       {children}

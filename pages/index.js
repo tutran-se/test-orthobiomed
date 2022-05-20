@@ -16,6 +16,7 @@ const DashBoardHome = () => {
       <Head>
         <title>Dashboard Home</title>
       </Head>
+
       <LayOut>
         <Container>
           <DashBoardDefault />
