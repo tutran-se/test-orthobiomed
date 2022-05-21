@@ -9,10 +9,10 @@ const theme = createTheme({
 });
 export default function MyApp({ Component, pageProps }) {
   return (
-    <ThemeProvider theme={theme}>
-      <AuthContextProvider>
+    <AuthContextProvider>
+      <ThemeProvider theme={theme}>
         <Component {...pageProps} />
-      </AuthContextProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </AuthContextProvider>
   );
 }

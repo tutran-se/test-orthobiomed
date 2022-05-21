@@ -9,18 +9,20 @@
     "test:ci": "jest --ci"
   },
   "dependencies": {
-    "axios": "^0.27.2",
-    "next": "latest",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "styled-components": "^5.3.5",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.6.2",
     "@mui/material": "^5.6.3",
     "@mui/styled-engine-sc": "^5.6.1",
+    "axios": "^0.27.2",
+    "cookies": "^0.8.0",
+    "cookies-next": "^2.0.4",
+    "next": "latest",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "react-hook-form": "^7.30.0",
-    "react-icons": "^4.3.1"
+    "react-icons": "^4.3.1",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.4",
