@@ -4,12 +4,11 @@ import Cookies from "cookies";
 export default function handler(req, res) {
   console.log(process.env.NODE_ENV);
   const cookies = new Cookies(req, res);
-  const secure = true;
+  console.log("Before");
   cookies.set("tokens", JSON.stringify(req.query), {
     httpOnly: true,
-    secure: true,
     sameSite: "none",
   });
-
+  console.log("After");
   res.redirect(307, "/");
 }
