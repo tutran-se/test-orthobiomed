@@ -3,10 +3,10 @@
 import Cookies from "cookies";
 export default function handler(req, res) {
   console.log(process.env.NODE_ENV);
-
   const cookies = new Cookies(req, res);
   cookies.set("tokens", JSON.stringify(req.query), {
     httpOnly: process.env.NODE_ENV === "production" ? true : false, // true by default
+    secure: process.env.NODE_ENV === "production" ? true : false, // true by default
     sameSite: "none",
   });
 
