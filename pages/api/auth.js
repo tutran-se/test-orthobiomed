@@ -7,7 +7,7 @@ export default function handler(req, res) {
   const cookies = new Cookies(req, res);
   cookies.set("tokens", JSON.stringify(req.query), {
     httpOnly: process.env.NODE_ENV === "production" ? true : false, // true by default
-    sameSite: "strict",
+    sameSite: "none",
   });
 
   res.redirect(307, "/");
