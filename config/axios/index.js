@@ -8,7 +8,8 @@ const BASE_URL =
 
 const axiosInstance = Axios.create({
   baseURL: BASE_URL,
+  withCredentials: true,
 });
-axiosInstance.defaults.withCredentials = true;
+// axiosInstance.defaults.withCredentials = true;
 
 export default axiosInstance;
