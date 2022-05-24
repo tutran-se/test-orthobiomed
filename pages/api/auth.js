@@ -9,6 +9,7 @@ export default function handler(req, res) {
     httpOnly: true,
     sameSite: "none",
     secure: true,
+    secureProxy: true,
   });
   console.log("After");
   res.redirect(307, "/");
