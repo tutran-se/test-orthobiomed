@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": "next start",
+    "deploy": "npm run build && rm -rf output static && next export -o output && mv output static && python app.py -d static",
     "test": "jest",
     "testWatchMode": "jest --watch",
     "test:ci": "jest --ci"

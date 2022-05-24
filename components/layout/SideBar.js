@@ -12,6 +12,7 @@ import {
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BsBoxArrowInLeft, BsHeadset } from "react-icons/bs";
+import { FaCog } from "react-icons/fa";
 import { Avatar, Badge } from "@mui/material";
 import { useRouter } from "next/router";
 import { useAuth } from "../context/AuthContextProvider";
@@ -126,7 +127,25 @@ const SideBar = () => {
             </SmallLogoContainer>
           </NavItem>
         )}
-
+        <NavItem
+          onClick={() => router.push("/settings")}
+          style={{
+            background: router.asPath.includes("/settings") && "#494949",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexGrow: "1",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <FaCog size={23} />
+            &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+            <p style={{ marginRight: "auto", cursor: "pointer" }}>Settings</p>
+          </div>
+        </NavItem>
         <NavItem id="avatarItem">
           <div style={{ flexGrow: "1" }}>
             <div
