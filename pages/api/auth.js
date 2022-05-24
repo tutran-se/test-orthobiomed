@@ -1,16 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import Cookies from "cookies";
+import { serialize } from "cookie";
+
 export default function handler(req, res) {
-  console.log(process.env.NODE_ENV);
-  const cookies = new Cookies(req, res);
-  console.log("Before");
-  cookies.set("tokens", JSON.stringify(req.query), {
-    httpOnly: true,
-    sameSite: "none",
-    secure: true,
-    secureProxy: true,
-  });
-  console.log("After");
+  const objectString = JSON.stringify({ token: "test" });
+  res.setHeader(
+    "Set-Cookie",
+    serialize("token", objectString, {
+      path: "/",
+      sameSite: "none",
+      secure: true,
+    })
+  );
   res.redirect(307, "/");
 }
