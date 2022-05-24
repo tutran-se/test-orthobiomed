@@ -7,8 +7,9 @@ export default function handler(req, res) {
   console.log("Before");
   cookies.set("tokens", JSON.stringify(req.query), {
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "none",
+    secure: true,
   });
   console.log("After");
-  res.redirect(307, "/");
+  // res.redirect(307, "/");
 }
