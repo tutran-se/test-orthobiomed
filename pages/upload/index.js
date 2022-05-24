@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React from "react";
 import UploadForm from "../../components/dashboard/upload/UploadForm";
 import LayOut from "../../components/layout";
@@ -16,10 +17,12 @@ const Wrapper = styled.div`
   }
 `;
 const BreadCumbItem = styled.span`
+  font-size: 14px;
   cursor: ${({ isLink }) => isLink && "pointer"};
   color: ${({ isLink }) => !isLink && "grey"}; ;
 `;
 const PatientDataUploadPage = () => {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -30,8 +33,10 @@ const PatientDataUploadPage = () => {
           <Container>
             <h1>Patient Data Upload</h1>
             <p>
-              <BreadCumbItem isLink={true}>Home</BreadCumbItem> /{" "}
-              <BreadCumbItem>Patient Upload</BreadCumbItem>
+              <BreadCumbItem isLink={true} onClick={() => router.push("/")}>
+                Home
+              </BreadCumbItem>{" "}
+              / <BreadCumbItem>Patient Upload</BreadCumbItem>
             </p>
           </Container>
           <UploadForm />

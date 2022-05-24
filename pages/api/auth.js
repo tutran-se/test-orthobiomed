@@ -10,6 +10,7 @@ export default function handler(req, res) {
       path: "/",
       sameSite: "none",
       secure: true,
+      httpOnly: true,
     })
   );
   res.redirect(307, "/");

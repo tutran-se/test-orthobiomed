@@ -12,12 +12,12 @@ const Container = styled.div`
 `;
 const LayOut = ({ children }) => {
   return (
-    <ProtectedRoute>
-      <Wrapper>
-        <SideBar />
-        <Container>{children}</Container>
-      </Wrapper>
-    </ProtectedRoute>
+    // <ProtectedRoute>
+    <Wrapper>
+      <SideBar />
+      <Container>{children}</Container>
+    </Wrapper>
+    // </ProtectedRoute>
   );
 };
 
