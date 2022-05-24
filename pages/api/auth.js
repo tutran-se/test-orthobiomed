@@ -11,5 +11,5 @@ export default function handler(req, res) {
     secure: true,
   });
   console.log("After");
-  // res.redirect(307, "/");
+  res.redirect(307, "/");
 }
