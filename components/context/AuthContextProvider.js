@@ -61,12 +61,15 @@ const AuthContextProvider = ({ children }) => {
 
   const getCurrentUserInfo = async () => {
     try {
-      const { data } = await API_CALL({
-        method: "get",
-        url: "/me/",
+      // const { data } = await API_CALL({
+      //   method: "get",
+      //   url: "/me/",
+      // });
+      // setUserInfo({ ...data });
+      // setAuthState({ isAuthStateReady: true, isAuthenticated: true });
+      await fetch("https://orthobiomed-be.herokuapp.com/api/v1/me/", {
+        credentials: "include",
       });
-      setUserInfo({ ...data });
-      setAuthState({ isAuthStateReady: true, isAuthenticated: true });
     } catch (error) {
       console.log(error);
       setUserInfo({});
